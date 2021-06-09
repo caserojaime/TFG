@@ -38,7 +38,7 @@ relations <- data.frame(
 )
 
 
-# Las simulaciones están al final del código
+# Las simulaciones estÃ¡n al final del cÃ³digo
 
 
 solution = function(FO, graph){
@@ -107,11 +107,11 @@ library(gurobi)
 model <- list()
 
 
-# Objetivo según cada criterio de nivelación. 
-## La numeración de las FO está según Damci y Polat: 
+# Objetivo segÃºn cada criterio de nivelaciÃ³n. 
+## La numeraciÃ³n de las FO estÃ¡ segÃºn Damci y Polat: 
 ## (Criterio - FO): 3.2.1 - 7, 3.2.2 - 8, 3.2.3 - 1, 3.2.4 - 2, 3.2.5 - 9, 3.2.6 - 3, 3.2.7 - 4, 3.2.8 - 5, 3.2.9 - 6.  
 
-# Matriz Q y obj para función 7
+# Matriz Q y obj para funciÃ³n 7
 # Minimization of the sum of the square of daily resource usage
 
 if(FO=='7'){
@@ -127,7 +127,7 @@ for(v in 1:schedule$duration){
 }
 
 
-# Matriz Q y obj para función 8
+# Matriz Q y obj para funciÃ³n 8
 # Minimization of the sum of the square of the deviations in daily resource usage 
 
 if(FO=='8'){
@@ -164,7 +164,7 @@ for(v in 2:schedule$duration){
 
 
 
-# Matriz Q y obj para función 9
+# Matriz Q y obj para funciÃ³n 9
 # Minimization of the sum of the square of the deviations between daily resource usage 
 # and the average resource usage  
 
@@ -180,7 +180,7 @@ for(v in 1:schedule$duration){
 }
 
 
-# obj para función 1
+# obj para funciÃ³n 1
 # Minimization of the sum of the absolute deviations in daily resource usage  
 
 if(FO=='1'){
@@ -264,7 +264,7 @@ R0 = rbind(R00, R01, R02)
 
 
 
-# obj para función 2
+# obj para funciÃ³n 2
 # Minimization of the sum of only the increases in daily resource usage  
 
 
@@ -315,7 +315,7 @@ if(FO=='2'){
 }
   
   
-# obj para función 3
+# obj para funciÃ³n 3
 # Minimization of the sum of the the absolute deviations between daily resource usage
 # and the average resource usage  
 
@@ -382,7 +382,7 @@ R0 = rbind(R00, R01, R02)
 
 
 
-# obj para función 4
+# obj para funciÃ³n 4
 # Minimization of the maximum daily resource usage
 
 if(FO=='4'){
@@ -398,7 +398,7 @@ for(i in 1:schedule$duration){
 }
 
 
-# obj para función 5
+# obj para funciÃ³n 5
 # Minimization of the maximum deviation in daily resource usage
 
 if(FO=='5'){
@@ -430,7 +430,7 @@ R0 = rbind(R00, R01, R02)
 
 
 
-# obj para función 6
+# obj para funciÃ³n 6
 # Minimization of the maximum  absolute deviation between daily resource usage
 # and the average resource usage
 
@@ -634,10 +634,10 @@ if(FO=="9"){
   result$objval = result$objval + n_var_Z*((sum(activities$resource*activities$duration)/schedule$duration))^2
 }
 
-# Solución
+# SoluciÃ³n
 print(result$objval)   # valor objetivo
 print(result$x)        # resultado variables
-print(result$status)   # indica si se ha encontrado una solución óptima
+print(result$status)   # indica si se ha encontrado una soluciÃ³n Ã³ptima
 
 Plan = cbind(X[,-3],isS=result$x[1:n_var_X])
 Plan = filter(as.data.frame(Plan), isS == 1)
@@ -681,7 +681,7 @@ print(ggplot(df) +
   geom_col(aes(x = x, y = y),  width = 1) + #el width = 1 es para que pinte las barras juntas
   scale_x_continuous(breaks=seq(0,schedule$duration)) +
   labs(#title = "Consumo de recursos en cada instante" , 
-       #subtitle = "¿Cómo avanza el requerimiento de recursos a lo largo del tiempo? ",       x = "t", 
+       #subtitle = "Â¿CÃ³mo avanza el requerimiento de recursos a lo largo del tiempo? ",       x = "t", 
        y = "Zt" ) +
   ylim(c(0,max(result$x)+3)) +
   geom_hline(yintercept=(sum(activities$resource*activities$duration)/schedule$duration), color = "red")) 
@@ -693,44 +693,44 @@ print(ggplot(df) +
 
 if(graph=="comp"){
   
-datosOpt= data.frame(Instante=seq(0,schedule$duration-1) + 0.5, Recursos=result$x[(n_var_X+1): n_var], Planificación =c(rep("S(Opt)",schedule$duration)))
+datosOpt= data.frame(Instante=seq(0,schedule$duration-1) + 0.5, Recursos=result$x[(n_var_X+1): n_var], PlanificaciÃ³n =c(rep("S(Opt)",schedule$duration)))
   
-datosES = data.frame(Instante=seq(0,schedule$duration-1) + 0.5 , Recursos=recursosES, Planificación =c(rep("S(ES)",schedule$duration)))
+datosES = data.frame(Instante=seq(0,schedule$duration-1) + 0.5 , Recursos=recursosES, PlanificaciÃ³n =c(rep("S(ES)",schedule$duration)))
 
-datosLS = data.frame(Instante=seq(0,schedule$duration-1) + 0.5, Recursos=recursosLS, Planificación =c(rep("S(LS)",schedule$duration)))
+datosLS = data.frame(Instante=seq(0,schedule$duration-1) + 0.5, Recursos=recursosLS, PlanificaciÃ³n =c(rep("S(LS)",schedule$duration)))
   
 datos=rbind(datosOpt, datosES, datosLS)
   
-print(ggplot(data = datos, aes(x = Instante, y = Recursos, color = Planificación)) + 
+print(ggplot(data = datos, aes(x = Instante, y = Recursos, color = PlanificaciÃ³n)) + 
     labs(#title = "Consumo de recursos", 
-         #subtitle = "¿Cómo avanza el requerimiento de recursos a lo largo del tiempo? ",
+         #subtitle = "Â¿CÃ³mo avanza el requerimiento de recursos a lo largo del tiempo? ",
          x = "t", 
          y = "Zt" ) +
     ylim(c(0, 11.75
-           #max(result$x)+3  #modificar en función de las dimensiones del problema (9 es para el Caso TFG)
+           #max(result$x)+3  #modificar en funciÃ³n de las dimensiones del problema (9 es para el Caso TFG)
            )) +
     geom_line() +
     geom_point() +
     #scale_color_manual(values=c('#8BC540', '#DC5D42', "#25AAE2")) +
     scale_x_continuous(breaks=seq(0,schedule$duration)) +
       
-      if(FO == 7){ scale_color_manual(name = "Planificación", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{1})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
+      if(FO == 7){ scale_color_manual(name = "PlanificaciÃ³n", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{1})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
         
-        } else{ if(FO==8){ scale_color_manual(name = "Planificación", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{2})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
+        } else{ if(FO==8){ scale_color_manual(name = "PlanificaciÃ³n", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{2})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
           
-        } else{ if(FO==1){ scale_color_manual(name = "Planificación", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{3})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
+        } else{ if(FO==1){ scale_color_manual(name = "PlanificaciÃ³n", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{3})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
           
-        } else{ if(FO==2){ scale_color_manual(name = "Planificación", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{4})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
+        } else{ if(FO==2){ scale_color_manual(name = "PlanificaciÃ³n", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{4})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
           
-        } else{ if(FO==9){ scale_color_manual(name = "Planificación", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{5})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
+        } else{ if(FO==9){ scale_color_manual(name = "PlanificaciÃ³n", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{5})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
           
-        } else{ if(FO==3){ scale_color_manual(name = "Planificación", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{6})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
+        } else{ if(FO==3){ scale_color_manual(name = "PlanificaciÃ³n", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{6})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
           
-        } else{ if(FO==4){ scale_color_manual(name = "Planificación", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{7})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
+        } else{ if(FO==4){ scale_color_manual(name = "PlanificaciÃ³n", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{7})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
           
-        } else{ if(FO==5){ scale_color_manual(name = "Planificación", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{8})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
+        } else{ if(FO==5){ scale_color_manual(name = "PlanificaciÃ³n", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{8})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
           
-        } else{ if(FO==6){ scale_color_manual(name = "Planificación", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{9})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
+        } else{ if(FO==6){ scale_color_manual(name = "PlanificaciÃ³n", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{9})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
           
         }
         }
@@ -839,14 +839,14 @@ solution(7,"hist")
 
 solution(6,"comp")
 
-system.time(solution(7,"hist")) #tiempo de cómputo
+system.time(solution(7,"hist")) #tiempo de cÃ³mputo
 
 
 
 
 # Para el caso TFG:
 
-# Mi planificación para el Trabajo de Fin de Grado:
+# Mi planificaciÃ³n para el Trabajo de Fin de Grado:
 J = c(0, 0, 3, 4, 9, 6, 12, 16, 17, 21, 19, 22, 22, 23, 25)
 
 recursosJ = c(rep(0, schedule$duration))
@@ -864,32 +864,32 @@ print(ggplot(df) +
         geom_col(aes(x = x, y = y),  width = 1) + #el width = 1 es para que pinte las barras juntas
         scale_x_continuous(breaks=seq(0,schedule$duration)) +
         labs(#title = "Consumo de recursos en cada instante" , 
-          #subtitle = "¿Cómo avanza el requerimiento de recursos a lo largo del tiempo? ",       x = "t", 
+          #subtitle = "Â¿CÃ³mo avanza el requerimiento de recursos a lo largo del tiempo? ",       x = "t", 
           y = "Zt" ) +
         ylim(c(0,9)) +
         geom_hline(yintercept=(sum(activities$resource*activities$duration)/schedule$duration), color = "red")) 
 
 
-datosJ= data.frame(Instante=seq(0,schedule$duration-1) + 0.5, Recursos=recursosJ, Planificación =c(rep("S(J)",schedule$duration)))
+datosJ= data.frame(Instante=seq(0,schedule$duration-1) + 0.5, Recursos=recursosJ, PlanificaciÃ³n =c(rep("S(J)",schedule$duration)))
 
-datosES = data.frame(Instante=seq(0,schedule$duration-1) + 0.5 , Recursos=recursosES, Planificación =c(rep("S(ES)",schedule$duration)))
+datosES = data.frame(Instante=seq(0,schedule$duration-1) + 0.5 , Recursos=recursosES, PlanificaciÃ³n =c(rep("S(ES)",schedule$duration)))
 
-datosLS = data.frame(Instante=seq(0,schedule$duration-1) + 0.5, Recursos=recursosLS, Planificación =c(rep("S(LS)",schedule$duration)))
+datosLS = data.frame(Instante=seq(0,schedule$duration-1) + 0.5, Recursos=recursosLS, PlanificaciÃ³n =c(rep("S(LS)",schedule$duration)))
 
 datos=rbind(datosJ, datosES, datosLS)
 
-print(ggplot(data = datos, aes(x = Instante, y = Recursos, colour = Planificación)) + 
+print(ggplot(data = datos, aes(x = Instante, y = Recursos, colour = PlanificaciÃ³n)) + 
         labs(#title = "Consumo de recursos", 
-          #subtitle = "¿Cómo avanza el requerimiento de recursos a lo largo del tiempo? ",
+          #subtitle = "Â¿CÃ³mo avanza el requerimiento de recursos a lo largo del tiempo? ",
           x = "t", 
           y = "Zt" ) +
         ylim(c(0, 9
-               #max(result$x)+3  #modificar en función de las dimensiones del problema (9 es para el Caso TFG)
+               #max(result$x)+3  #modificar en funciÃ³n de las dimensiones del problema (9 es para el Caso TFG)
         )) +
         geom_line() +
         geom_point() +
         scale_x_continuous(breaks=seq(0,schedule$duration))+
-        scale_color_manual(name = "Planificación", labels = c(expression("S"[ES]), expression("S"[J]), expression("S"[LS])), values =c('#8BC540', "black", '#DC5D42'))
+        scale_color_manual(name = "PlanificaciÃ³n", labels = c(expression("S"[ES]), expression("S"[J]), expression("S"[LS])), values =c('#8BC540', "black", '#DC5D42'))
         ) 
 
 
@@ -933,7 +933,7 @@ relations <- data.frame(
 
 
 
-## Grafo n=30, prob = 0.2, duración y recursos 1:5
+## Grafo n=30, prob = 0.2, duraciÃ³n y recursos 1:5
 
 set.seed(3002)
 n=30
@@ -953,7 +953,7 @@ relations <- data.frame(
 
 
 
-## Grafo n=30, prob = 0.2, duración y recursos 1:10
+## Grafo n=30, prob = 0.2, duraciÃ³n y recursos 1:10
 
 set.seed(3002)
 n=30
@@ -973,7 +973,7 @@ relations <- data.frame(
 
 
 
-## Grafo n=30, prob = 0.3, duración y recursos 1:5
+## Grafo n=30, prob = 0.3, duraciÃ³n y recursos 1:5
 
 set.seed(3003)
 n=30
@@ -992,7 +992,7 @@ relations <- data.frame(
 
 
 
-## Grafo n=30, prob = 0.3, duración y recursos 1:10
+## Grafo n=30, prob = 0.3, duraciÃ³n y recursos 1:10
 
 set.seed(3003)
 n=30
@@ -1011,7 +1011,7 @@ relations <- data.frame(
 
 
 
-## Grafo n=40, prob = 0.1, duración y recursos 1:5
+## Grafo n=40, prob = 0.1, duraciÃ³n y recursos 1:5
 
 set.seed(40)
 n=40
@@ -1029,7 +1029,7 @@ relations <- data.frame(
 
 
 
-## Grafo n=40, prob = 0.1, duración y recursos 1:10
+## Grafo n=40, prob = 0.1, duraciÃ³n y recursos 1:10
 
 set.seed(40)
 n=40
@@ -1046,7 +1046,7 @@ relations <- data.frame(
 )
 
 
-## Grafo n=40, prob = 0.145, duración y recursos 1:5
+## Grafo n=40, prob = 0.145, duraciÃ³n y recursos 1:5
 
 set.seed(402)
 n=40
@@ -1066,7 +1066,7 @@ relations <- data.frame(
 
 
 
-## Grafo n=40, prob = 0.145, duración y recursos 1:10
+## Grafo n=40, prob = 0.145, duraciÃ³n y recursos 1:10
 
 set.seed(402)
 n=40
@@ -1086,7 +1086,7 @@ relations <- data.frame(
 
 
 
-## Grafo n=50, prob = 0.06, duración y recursos 1:5
+## Grafo n=50, prob = 0.06, duraciÃ³n y recursos 1:5
 
 set.seed(501)
 n=50
@@ -1105,7 +1105,7 @@ relations <- data.frame(
 )
 
 
-## Grafo n=50, prob = 0.06, duración y recursos 1:10
+## Grafo n=50, prob = 0.06, duraciÃ³n y recursos 1:10
 
 set.seed(501)
 n=50
@@ -1125,7 +1125,7 @@ relations <- data.frame(
 
 
 
-## Grafo n=50, prob = 0.1, duración y recursos 1:5
+## Grafo n=50, prob = 0.1, duraciÃ³n y recursos 1:5
 
 set.seed(50)
 n=50
@@ -1147,7 +1147,7 @@ relations <- data.frame(
 
 
 
-## Grafo n=50, prob = 0.1, duración y recursos 1:10
+## Grafo n=50, prob = 0.1, duraciÃ³n y recursos 1:10
 
 set.seed(50)
 n=50
