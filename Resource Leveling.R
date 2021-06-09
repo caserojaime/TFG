@@ -732,15 +732,7 @@ print(ggplot(data = datos, aes(x = Instante, y = Recursos, color = Planificació
           
         } else{ if(FO==6){ scale_color_manual(name = "Planificación", labels = c(expression("S"[ES]), expression("S"[LS]), expression("S"[OPT]^{9})), values =c('#8BC540', '#DC5D42', "#25AAE2"))
           
-        }
-        }
-        }
-        }
-        }
-        }
-        }
-        }
-        }
+        }}}}}}}}}
     )
 
   }   
